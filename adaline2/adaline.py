@@ -11,24 +11,22 @@ class Adaline(object):
 
     def net_input(self, individual, weight_):
       #print(individual)
-      #print(weight_[0:-1] + weight_[2])
+      #print(weight_)
       return np.dot(individual, weight_[1:]) + weight_[0]
     def activation_function(self, individual, weight_):
       return self.net_input(individual, weight_)
     def predict(self, weight_):
-      print(self)
-      print(weight_)
       score = 0
       for _, data in self.df.iterrows():
         df_individual = []
         answer = None
         for i, v in data.items():
-          print(i)
-          print(v)
-          if i != 8:
+          if i != "Outcome":
             df_individual.append(v)
           else:
-            answer = v
+            answer = v    
+        if len(df_individual) != 8 or len(weight_) != 9:
+          break
         prediction = np.where(self.activation_function(df_individual, weight_) >= 0.0, 1, 0)
         if prediction == answer:
           score += 1

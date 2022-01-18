@@ -7,9 +7,9 @@ POPULATION_SIZE = 40
 
 def get_initial_population(X):
   initial_population = []
+  #print(X.shape[0])
   for _ in range(POPULATION_SIZE):
-    print('aquiii' + str(X.shape[0] + 1))
-    initial_population.append(np.random.uniform(0, 1, X.shape[0] + 1))
+    initial_population.append(np.random.uniform(0, 1, X.shape[1] + 1))
   return initial_population
 
 def score(clf, population):
