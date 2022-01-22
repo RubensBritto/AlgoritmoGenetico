@@ -1,15 +1,20 @@
 import numpy as np
+import time
 
 class Adaline(object):
     def __init__(self, learningRate=0.02, epochs=1000):
       self.learningRate = learningRate
       self.epochs = epochs
+      self.epocasPlot = []
+      self.timePlot = []
       
     def train(self, X, y):
+      ini = time.time()
       self._weights = np.zeros(X.shape[1] + 1)
       self.errors = []
       
       for _ in range (self.epochs):
+        #ini = time.time()
         errors = 0
         for xi, target in zip(X, y):
           error = (target - self.predict(xi))
@@ -20,6 +25,10 @@ class Adaline(object):
           self._weights[0] += update
           
         self.errors.append(errors)
+        fim = time.time()
+        self.timePlot.append(fim-ini)
+        print(f'Tempo {self.timePlot}')
+        self.epocasPlot.append(len(self.epocasPlot)+1)
       #return self
     
     def net_input(self, X):

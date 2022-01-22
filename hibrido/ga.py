@@ -30,23 +30,33 @@ def exchange_dna(father, mother, new_population):
   return new_population
 
 def crossover(new_population, population):
-  for _ in range(len(population)):
-    father_index = np.random.randint(0, len(population)-1)
-    mother_index = np.random.randint(0, len(population)-1)
-    while father_index == mother_index:
+  taxa = np.random.randint(0,100)
+  # 60 à 90
+  if taxa >= 80:
+    for _ in range(len(population)):
       father_index = np.random.randint(0, len(population)-1)
       mother_index = np.random.randint(0, len(population)-1)
-    father = population[father_index]
-    mother = population[mother_index]
-    new_population = exchange_dna(father, mother, new_population)
-  return new_population
+      while father_index == mother_index:
+        father_index = np.random.randint(0, len(population)-1)
+        mother_index = np.random.randint(0, len(population)-1)
+      father = population[father_index]
+      mother = population[mother_index]
+      new_population = exchange_dna(father, mother, new_population)
+    return new_population
+  else:
+    return population
 
 def mutation(population, X):
-  for _ in range(POPULATION_SIZE // 8):
-    index = np.random.randint(0, len(population) - 1)
-    population[index] = np.random.uniform(-1, 1, X.shape[1] + 1)
-  return population
-
+  taxa = np.random.randint(0,100)
+  # 10 à 40
+  if taxa >= 30:
+    for _ in range(POPULATION_SIZE // 8):
+      index = np.random.randint(0, len(population) - 1)
+      population[index] = np.random.uniform(-1, 1, X.shape[1] + 1)
+    return population
+  else:
+    return population
+  
 def selection(population, population_score, new_population, new_population_score):
   merged_population = population + new_population
   merged_score = population_score + new_population_score
