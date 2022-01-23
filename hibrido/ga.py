@@ -82,4 +82,3 @@ def selectionFirst(population, population_score):
         population[i] = population[j]
         population[j] = aux
   return population[:20], population_score[:20] 
-

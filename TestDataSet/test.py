@@ -12,10 +12,7 @@ trainZero = df.query('Outcome == 0')[250:]
 dataSetTest = pd.concat([testOne, testZero])
 dataSetTraint = pd.concat([trainOne, trainZero])
 
-dataSetTest.to_csv("dataSetTest.csv")
-dataSetTraint.to_csv("dataSetTraint.csv")
+dataSetTest.to_csv("dataSetTest.csv", encoding='utf-8', index=False)
+dataSetTraint.to_csv("dataSetTrain.csv", encoding='utf-8', index=False)
 
-print(dataSetTest)
-print('----------')
-print(dataSetTraint)
 

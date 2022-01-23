@@ -4,27 +4,37 @@ import time
 import matplotlib.pyplot as plt
 
 
-clf = Adaline(epochs=10)
+clf = Adaline(epochs=1000)
 
-def main():
-  df = pd.read_csv('diabetesDataset.csv')
+def train():
+  df = pd.read_csv('dataSetTrain.csv')
   df.head()
 
   X = df.iloc[0:,[0,1,2,3,4,5,6,7]].values
   y = df.iloc[0:,8].values
   
   clf.train(X, y)
-  print(f'Pesos calculados: {clf._weights}')
+  print(f'Pesos calculados: {clf._weights[1:]}')
 
 def plot():
   plt.plot(clf.epocasPlot,clf.timePlot)
   plt.ylabel('Time(s)')
   plt.xlabel('Epocas')
   plt.show()
+  
+def test():
+  df = pd.read_csv('dataSetTest.csv')
+  df.head()
+
+  X_2 = df.iloc[0:,[0,1,2,3,4,5,6,7]].values
+  y_2 = df.iloc[0:,8].values
+  clf.test(X_2, y_2)
+  
+  print(f'Acertos: {clf.acertosApurado}')
+  print(f'Erros: {clf.errosApurado}')
+  print(f'Pesos calculados: {clf._weights[1:]}')
 
 if __name__ == "__main__":
-  ini = time.time()
-  main()
-  plot()
-  fim = time.time()
-  print(f'Tempo execução: {fim-ini}') 
+  train()
+  test()
+  #plot()

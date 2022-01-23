@@ -3,17 +3,23 @@ import pandas as pd
 
 class Adaline(object):
     def __init__(self):
-      self.df = pd.read_csv('diabetesDataset.csv')
+      self.df = pd.read_csv('dataSetTrain.csv')
       self.df.head()
+      self.acertosApurado = 0
+      self.errosApurado = 0
 
       self.X = self.df.iloc[0:,[0,1,2,3,4,5,6,7]].values
       self.y = self.df.iloc[0:,8].values
 
     def net_input(self, individual, weight_):
-      #x = np.dot(individual, weight_[1:]) + weight_[0]
-      #return 1/(1+np.exp(-x)) - sigmoide
-      #return np.sinh(x)/np.cosh(x) - tangente hiperbolica
-      return np.dot(individual, weight_[1:]) + weight_[0]
+      bias = weight_[0]
+      output = 0
+      i = 0
+      for i in range(len(individual)):
+        output = individual[i] * weight_[i+1]
+      output = bias + output
+      return output
+    
     def activation_function(self, individual, weight_):
       return self.net_input(individual, weight_)
     def predict(self, weight_):
@@ -32,3 +38,29 @@ class Adaline(object):
         if prediction == answer:
           score += 1
       return score
+    
+    def test(self, X, y, weights):      
+      for xi, target in zip(X, y):
+        i = 0
+        output = 0
+        bias = weights[0]
+        for i in range(len(xi)):
+          output = xi[i] * weights[i+1]
+        self.u = output + bias
+        self.saida(self.u, target)
+        self.u = 0
+     
+    def saida(self, u, target):
+        newTarget = -1
+        if u>=0.0:
+          newTarget = 1
+          if newTarget == target:
+            self.acertosApurado+=1
+          else:
+            self.errosApurado+=1
+        else:
+          newTarget = 0
+          if newTarget == target:
+            self.acertosApurado+=1
+          else:
+            self.errosApurado+=1
