@@ -1,13 +1,13 @@
 import pandas as pd
-from adaline import *
+from perceptron import *
 import time
 import matplotlib.pyplot as plt
 
 
-clf = Adaline(epochs=1000)
+clf = Perceptron(epochs=10000)
 
 def train():
-  df = pd.read_csv('dataSetTrain.csv')
+  df = pd.read_csv('dataSetTrain2.csv')
   df.head()
 
   X = df.iloc[0:,[0,1,2,3,4,5,6,7]].values
@@ -23,7 +23,7 @@ def plot():
   plt.show()
   
 def test():
-  df = pd.read_csv('dataSetTest.csv')
+  df = pd.read_csv('dataSetTest2.csv')
   df.head()
 
   X_2 = df.iloc[0:,[0,1,2,3,4,5,6,7]].values
