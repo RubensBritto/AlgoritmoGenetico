@@ -4,7 +4,7 @@ import time
 import matplotlib.pyplot as plt
 
 
-clf = Perceptron(epochs=10000)
+clf = Perceptron(epochs=5000)
 
 def train():
   df = pd.read_csv('dataSetTrain2.csv')
@@ -32,6 +32,7 @@ def test():
   
   print(f'Acertos: {clf.acertosApurado}')
   print(f'Erros: {clf.errosApurado}')
+  print(f'Acuracia: {clf.acertosApurado/(clf.acertosApurado+clf.errosApurado)}')
   print(f'Pesos calculados: {clf._weights[1:]}')
 
 if __name__ == "__main__":

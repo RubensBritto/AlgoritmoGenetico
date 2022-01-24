@@ -44,7 +44,6 @@ class Perceptron(object):
       return output
     
     def activation_function(self, X):
-      #return self.net_input(X)
       x = self.net_input(X)
       if x >= 0:
         z = math.exp(-x)
@@ -55,7 +54,6 @@ class Perceptron(object):
         sig = z / (1 + z)
         return sig
     def predict(self, X):
-      #return np.where(self.activation_function(X) > 0.1, 1, 0)
       return self.activation_function(X)
     
     def test(self, X, y):      
@@ -77,22 +75,3 @@ class Perceptron(object):
         self.acertosApurado+=1
       else:
         self.errosApurado+=1
-
-        
-      '''
-      newTarget = -1
-      if u > 0.0:
-        newTarget = 1
-        if newTarget == target:
-          self.acertosApurado+=1
-          return
-        else:
-          self.errosApurado+=1
-      else:
-        newTarget = 0
-        if newTarget == target:
-          self.acertosApurado+=1
-          return
-        else:
-          self.errosApurado+=1
-      '''
