@@ -2,39 +2,57 @@ from ga import *
 from perceptron import *
 import time
 import matplotlib.pyplot as plt
+import pandas as pd
 
 epocasPlot = []
 timePlot = []
 clf = Perceptron()
 
+df = pd.read_csv('dataSetTrain2.csv')
+df.head()
+
+X_train = df.iloc[0:,[0,1,2,3,4,5,6,7]].values
+y_train = df.iloc[0:,8].values
+
+
+def train(population):
+  scores = []
+  for individual in population:
+    score = clf.train(X_train, y_train, individual)
+    #if score == 0:
+      #print('Score 0')
+    scores.append(score)
+  return scores
+
 def main ():
   ini = time.time()
-  initial_population = get_initial_population(clf.X)
+  initial_population = get_initial_population(X_train)
   population = initial_population
   epocas = 0  
   while True:
     #ini = time.time()
-    scores = score(clf, population)
+    scores = train(population)
     scores.sort(reverse=True)
-    if scores[0] == 384 or epocas == 100:
+    if scores[0] == 0 or epocas == 20:
       print('Pesos: ', population[0])
       print(f'epocas - {epocas}')
       print(f'score: {scores}')
+      
       return population
-      break
     population,scores = selectionFirst(population,scores )
     new_population = crossover([], population)
-    new_population = mutation(new_population, clf.X)
-    new_scores = score(clf, new_population)
+    new_population = mutation(new_population, X_train)
+    new_scores = train(new_population)
     population,scores = selection(population, scores, new_population, new_scores)
     #print(scores)
-    if new_scores[0] == 384 or epocas == 100:
+    if new_scores[0] == 0 or epocas == 20:
       print('Pesos: ', population[0])
       print(f'epocas - {epocas}')
       print(f'score: {new_scores}')
       return population
-      break
     epocas+=1
+    new_population.clear
+    new_scores.clear
     fim = time.time()
     timePlot.append(fim-ini)
     #print(f'timePlot {timePlot}')

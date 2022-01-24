@@ -4,7 +4,7 @@ import time
 import matplotlib.pyplot as plt
 
 
-clf = Perceptron(epochs=10000)
+clf = Perceptron()
 
 def train():
   df = pd.read_csv('dataSetTrain2.csv')

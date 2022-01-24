@@ -3,7 +3,7 @@ import time
 import math
 
 class Perceptron(object):
-    def __init__(self, learningRate=0.2, epochs=1000):
+    def __init__(self, learningRate=0.2, epochs=1600):
       self.learningRate = learningRate
       self.epochs = epochs
       self.epocasPlot = []

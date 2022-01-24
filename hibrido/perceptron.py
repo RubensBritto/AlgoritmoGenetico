@@ -1,28 +1,51 @@
 import numpy as np
-import pandas as pd
+import time
 import math
 
 class Perceptron(object):
-    def __init__(self):
-      self.df = pd.read_csv('dataSetTrain2.csv')
-      self.df.head()
+    def __init__(self, learningRate=0.2,epochs=20):
+      self.learningRate = learningRate
+      self.epochs = epochs
+      self.epocasPlot = []
+      self.timePlot = []
       self.acertosApurado = 0
       self.errosApurado = 0
+      self.u = 0
 
-      self.X = self.df.iloc[0:,[0,1,2,3,4,5,6,7]].values
-      self.y = self.df.iloc[0:,8].values
+    def train(self, X, y, weights):
+      ini = time.time()
+      self._weights = weights
+      self.errors = []      
+      errors = 0
+      for _ in range (self.epochs):
+        #ini = time.time()
+        errors = 0
+        for xi, target in zip(X, y):
+          error = (target - self.predict(xi))
+          errors += int(error != 0.0)
+                    
+          update = self.learningRate * error
+          self._weights[1:] += update * xi
+          self._weights[0] += update
+        self.errors.append(errors)
+      
+        fim = time.time()
+        self.timePlot.append(fim-ini)
+        #print(f'Tempo {self.timePlot}')
+        self.epocasPlot.append(len(self.epocasPlot)+1)
+      return self.errors
 
-    def net_input(self, individual, weight_):
-      bias = weight_[0]
+    def net_input(self, X):
+      bias = self._weights[0]
       output = 0
       i = 0
-      for i in range(len(individual)):
-        output = individual[i] * weight_[i+1]
-      output = bias + output
+      for i in range(len(X)):
+        output = X[i] * self._weights[i+1]
+      output = bias
       return output
     
-    def activation_function(self, individual, weight_):
-      x = self.net_input(individual,weight_ )
+    def activation_function(self, X):
+      x = self.net_input(X)
       if x >= 0:
         z = math.exp(-x)
         sig = 1 / (1 + z)
@@ -31,24 +54,10 @@ class Perceptron(object):
         z = math.exp(x)
         sig = z / (1 + z)
         return sig
-    def predict(self, weight_):
-      score = 0
-      for _, data in self.df.iterrows():
-        df_individual = []
-        answer = None
-        for i, v in data.items():
-          if i != "Outcome":
-            df_individual.append(v)
-          else:
-            answer = v    
-        if len(df_individual) != 8 or len(weight_) != 9:
-          break
-        prediction = self.activation_function(df_individual, weight_)
-        if prediction == answer:
-          score += 1
-      return score
+    def predict(self, X):
+      return self.activation_function(X)
     
-    def test(self, X, y, weights):      
+    def test(self, X, y,weights):      
       for xi, target in zip(X, y):
         i = 0
         output = 0
@@ -56,9 +65,10 @@ class Perceptron(object):
         for i in range(len(xi)):
           output = xi[i] * weights[i+1]
         self.u = output
+        print(f'Valor de u - {self.u}, TARGET - {target}')
         self.saida(self.u, target)
         self.u = 0
-     
+    
     def saida(self, u, target):
       a = 1 / (1 + math.exp(-u))
       print(f'sub {abs(target - a)}')

@@ -13,14 +13,6 @@ def get_initial_population(X):
     initial_population.append(np.random.uniform(-1, 1, X.shape[1] + 1))
   return initial_population
 
-def score(clf, population):
-  scores = []
-  for individual in population:
-    score = clf.predict(individual)
-    #if score == 0:
-      #print('Score 0')
-    scores.append(score)
-  return scores
 
 def exchange_dna(father, mother, new_population):
   first_child = [father[0], father[1], father[2], father[3], father[4], mother[5], mother[6], mother[7], mother[8]]
@@ -62,7 +54,7 @@ def selection(population, population_score, new_population, new_population_score
   merged_score = population_score + new_population_score
   for i in range(len(merged_score)):
     for j in range(len(merged_score)):
-      if merged_score[i] >= merged_score[j]:
+      if merged_score[i] <= merged_score[j]:
         aux = merged_score[i]
         merged_score[i] = merged_score[j]
         merged_score[j] = aux
@@ -74,7 +66,7 @@ def selection(population, population_score, new_population, new_population_score
 def selectionFirst(population, population_score):
   for i in range(len(population_score)):
     for j in range(len(population_score)):
-      if population_score[i] >= population_score[j]:
+      if population_score[i] <= population_score[j]:
         aux = population_score[i]
         population_score[i] = population_score[j]
         population_score[j] = aux
