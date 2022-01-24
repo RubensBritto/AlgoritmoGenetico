@@ -55,7 +55,7 @@ class Perceptron(object):
         bias = weights[0]
         for i in range(len(xi)):
           output = xi[i] * weights[i+1]
-        self.u = output + bias
+        self.u = output
         self.saida(self.u, target)
         self.u = 0
      
